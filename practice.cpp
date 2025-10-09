@@ -1074,7 +1074,36 @@ public:
 };
 
 
-
+class Solution {
+public:
+    string minWindow(string s, string t) {
+        vector<int> mp(256,0);
+        for(char ch:t)
+        mp[ch]++;
+        int count=0,left=0,right=0,minlen=INT_MAX,sind=-1,n=t.size(),m=s.size();
+        while(right<m)
+        {
+            mp[s[right]]--;
+            if(mp[s[right]]>=0)
+            count++;
+            while(count==n)
+            {
+                if(right-left+1<minlen)
+                {
+                    minlen=right-left+1;
+                    sind=left;
+                }
+                mp[s[left]]++;
+                if(mp[s[left]]>0)
+                count--;
+                left++;
+            }
+            right++;
+        }
+        if(minlen==INT_MAX) return "";
+        return s.substr(sind,minlen);
+    }
+};
 
 A. Arrays / Strings
 
